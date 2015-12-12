@@ -45,6 +45,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         btnCadCarro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/aluguelcarro.imagens/novo-carro.png"))); // NOI18N
         btnCadCarro.setToolTipText("");
+        btnCadCarro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadCarroActionPerformed(evt);
+            }
+        });
 
         btnAlugarCarro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/aluguelcarro.imagens/alugar.png"))); // NOI18N
 
@@ -90,10 +95,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCadCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCadCarro, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAlugarCarro, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAlugarCarro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -103,6 +108,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCadCarroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadCarroActionPerformed
+        FrmCadCarro frmCadCarro = new FrmCadCarro();
+        frmCadCarro.setVisible(true); 
+    }//GEN-LAST:event_btnCadCarroActionPerformed
 
     /**
      * @param args the command line arguments
