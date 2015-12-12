@@ -5,6 +5,10 @@
  */
 package aluguelcarro.apresentacao;
 
+import aluguelcarro.models.Cliente;
+import aluguelcarro.negocios.CadastroCliente;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author eriss_000
@@ -35,6 +39,7 @@ public class FrmCadCliente extends javax.swing.JFrame {
         txtTelefone = new javax.swing.JTextField();
         txtCpf = new javax.swing.JTextField();
         btnCadCliente = new javax.swing.JButton();
+        btnFechar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,6 +52,19 @@ public class FrmCadCliente extends javax.swing.JFrame {
         jLabel4.setText("Telefone:");
 
         btnCadCliente.setText("Cadastrar");
+        btnCadCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadClienteActionPerformed(evt);
+            }
+        });
+
+        btnFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/aluguelcarro.imagens/fechar.png"))); // NOI18N
+        btnFechar.setText("Fechar");
+        btnFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFecharActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -61,16 +79,20 @@ public class FrmCadCliente extends javax.swing.JFrame {
                         .addGap(113, 113, 113)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
-                                .addGap(35, 35, 35)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(btnCadCliente))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(btnCadCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel3))
+                                    .addGap(35, 35, 35)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -92,13 +114,60 @@ public class FrmCadCliente extends javax.swing.JFrame {
                             .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnCadCliente)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCadCliente)
+                    .addComponent(btnFechar))
                 .addContainerGap(68, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
+        this.setVisible(false); 
+    }//GEN-LAST:event_btnFecharActionPerformed
+
+    private void btnCadClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadClienteActionPerformed
+        Cliente cliente = new Cliente();
+        CadastroCliente cadCliente = new CadastroCliente();
+        boolean dadosInseridos;
+        String nome = txtNome.getText();
+        String cpf = txtCpf.getText();
+        String telefone = txtTelefone.getText();
+        
+        if(!nome.equals("")){
+            cliente.setNome(nome);
+        }else{
+            cliente.setNome(""); 
+        }
+        
+        if(!cpf.equals("")){
+            cliente.setCpf(cpf);
+        }else{
+            cliente.setCpf(""); 
+        }
+        
+        if(!telefone.equals("")){
+            cliente.setTelefone(telefone);
+        }else{
+            cliente.setTelefone(""); 
+        }
+        
+        dadosInseridos = cadCliente.inserirCliente(cliente);
+        if(dadosInseridos){
+            this.limparCampos();
+        }
+        
+        JOptionPane.showMessageDialog(null, cadCliente.getMensagem()); 
+    }//GEN-LAST:event_btnCadClienteActionPerformed
+    
+    
+    public void limparCampos(){
+        txtCpf.setText("");
+        txtNome.setText("");
+        txtTelefone.setText(""); 
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -136,6 +205,7 @@ public class FrmCadCliente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadCliente;
+    private javax.swing.JButton btnFechar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

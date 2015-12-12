@@ -5,6 +5,10 @@
  */
 package aluguelcarro.apresentacao;
 
+import aluguelcarro.models.Carro;
+import aluguelcarro.negocios.CadastroCarro;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author eriss_000
@@ -37,6 +41,7 @@ public class FrmCadCarro extends javax.swing.JFrame {
         txtModelo = new javax.swing.JTextField();
         txtPlaca = new javax.swing.JTextField();
         btnCadCarro = new javax.swing.JButton();
+        btnFechar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,6 +56,19 @@ public class FrmCadCarro extends javax.swing.JFrame {
         jLabel5.setText("Placa:");
 
         btnCadCarro.setText("Cadastrar");
+        btnCadCarro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadCarroActionPerformed(evt);
+            }
+        });
+
+        btnFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/aluguelcarro.imagens/fechar.png"))); // NOI18N
+        btnFechar.setText("Fechar");
+        btnFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFecharActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -80,7 +98,10 @@ public class FrmCadCarro extends javax.swing.JFrame {
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnCadCarro, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnCadCarro, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -106,13 +127,67 @@ public class FrmCadCarro extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCadCarro)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCadCarro)
+                    .addComponent(btnFechar))
                 .addContainerGap(45, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
+        this.setVisible(false); 
+    }//GEN-LAST:event_btnFecharActionPerformed
+
+    private void btnCadCarroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadCarroActionPerformed
+        Carro carro = new Carro();
+        CadastroCarro cadCarro = new CadastroCarro();
+        boolean dadosInseridos;
+        String fabricante = txtFabricante.getText();
+        String modelo = txtModelo.getText();
+        String anoStr = txtAno.getText();
+        String placa = txtPlaca.getText();
+        
+        if(!fabricante.equals("")){
+            carro.setFabricante(fabricante);
+        }else{
+            carro.setFabricante(""); 
+        }
+        
+        if(!modelo.equals("")){
+            carro.setModelo(modelo);
+        }else{
+            carro.setModelo(""); 
+        }
+        
+        if(!anoStr.equals("")){
+            int ano = Integer.parseInt(anoStr);
+            carro.setAno(ano);
+        }else{
+            carro.setAno(0);
+        }
+        
+        if(!placa.equals("")){
+            carro.setPlaca(placa);
+        }else{
+            carro.setPlaca(""); 
+        }
+        
+        dadosInseridos = cadCarro.inserirCarro(carro);
+        if(dadosInseridos){
+            this.limparCampos();
+        }
+        
+        JOptionPane.showMessageDialog(null, cadCarro.getMensagem()); 
+    }//GEN-LAST:event_btnCadCarroActionPerformed
+    
+    public void limparCampos(){
+        txtFabricante.setText("");
+        txtModelo.setText("");
+        txtAno.setText("");
+        txtPlaca.setText("");
+    }
     /**
      * @param args the command line arguments
      */
@@ -150,6 +225,7 @@ public class FrmCadCarro extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadCarro;
+    private javax.swing.JButton btnFechar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

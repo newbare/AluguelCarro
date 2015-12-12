@@ -42,6 +42,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnCadCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/aluguelcarro.imagens/novo-cliente.png"))); // NOI18N
+        btnCadCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadClienteActionPerformed(evt);
+            }
+        });
 
         btnCadCarro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/aluguelcarro.imagens/novo-carro.png"))); // NOI18N
         btnCadCarro.setToolTipText("");
@@ -111,8 +116,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void btnCadCarroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadCarroActionPerformed
         FrmCadCarro frmCadCarro = new FrmCadCarro();
+        frmCadCarro.setLocationRelativeTo(frmCadCarro); 
         frmCadCarro.setVisible(true); 
     }//GEN-LAST:event_btnCadCarroActionPerformed
+
+    private void btnCadClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadClienteActionPerformed
+        FrmCadCliente frmCadCliente = new FrmCadCliente();
+        frmCadCliente.setLocationRelativeTo(frmCadCliente); 
+        frmCadCliente.setVisible(true);
+    }//GEN-LAST:event_btnCadClienteActionPerformed
 
     /**
      * @param args the command line arguments

@@ -67,6 +67,9 @@
           <Image iconType="3" name="/aluguelcarro.imagens/novo-cliente.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCadClienteActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnCadCarro">
       <Properties>
