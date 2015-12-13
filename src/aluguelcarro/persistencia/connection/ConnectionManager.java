@@ -12,7 +12,7 @@ public class ConnectionManager {
     private ConnectionManager() {
     }
 
-    public static ConnectionManager getInstancia() {
+    public static synchronized ConnectionManager getInstancia() {
         if (instancia == null) {
             instancia = new ConnectionManager();
         }

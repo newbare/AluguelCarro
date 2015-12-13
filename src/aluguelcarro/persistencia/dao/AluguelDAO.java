@@ -1,15 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package aluguelcarro.persistencia.dao;
+
+import aluguelcarro.models.Aluguel;
+import aluguelcarro.models.Cliente;
+import java.util.ArrayList;
 
 /**
  *
- * @author Santos
+ * @author Pedro H M dos Santos <phmsanttos@gmail.com>
  */
-public class AluguelDAO {
+public interface AluguelDAO {
+    public void save(Aluguel aluguel);
+    public ArrayList<Aluguel> findAll();
+    public Aluguel findByCliente(Cliente cliente);
     
 }

@@ -58,15 +58,15 @@ public class JDBCCLienteDAO extends AbstractJDBC implements ClienteDAO {
     }
 
     @Override
-    public void update(Cliente cliente) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public ArrayList<Cliente> findAll() {
         ArrayList<Cliente> clientes = new ArrayList<Cliente>();
         String sql = "";
-        sql = "SELECT " + TB_CLIENTE + "." + COL_ID + "," + TB_CLIENTE + "." + COL_NOME + "," + TB_CLIENTE + "." + COL_CPF + "," + TB_CLIENTE + "." + COL_TELEFONE + " FROM " + TB_CLIENTE;
+        sql = "SELECT " + 
+                TB_CLIENTE + "." + COL_ID + "," + 
+                TB_CLIENTE + "." + COL_NOME + "," + 
+                TB_CLIENTE + "." + COL_CPF + "," + 
+                TB_CLIENTE + "." + COL_TELEFONE + 
+            " FROM " + TB_CLIENTE;
         try {
             conexao = conexaoManager.abrirConexao();
             PreparedStatement stmt = conexao.prepareStatement(sql);
@@ -92,12 +92,52 @@ public class JDBCCLienteDAO extends AbstractJDBC implements ClienteDAO {
 
     @Override
     public Cliente findById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Cliente cliente = new Cliente();
+        String sql = "";
+        sql = "SELECT " + TB_CLIENTE + "." + COL_ID + "," + TB_CLIENTE + "." + COL_NOME + "," + TB_CLIENTE + "." + COL_CPF + "," + TB_CLIENTE + "." + COL_TELEFONE + " FROM " + TB_CLIENTE + " WHERE cliente.id = ?";
+        try {
+            conexao = conexaoManager.abrirConexao();
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                cliente.setId(rs.getInt(COL_ID));
+                cliente.setNome(rs.getString(COL_NOME));
+                cliente.setCpf(rs.getString(COL_CPF));
+                cliente.setTelefone(rs.getString(COL_TELEFONE));
+            }
+            stmt.executeUpdate();
+            conexao.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return cliente;
     }
 
     @Override
     public Cliente findByName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Cliente cliente = new Cliente();
+        String sql = "";
+        sql = "SELECT " + TB_CLIENTE + "." + COL_ID + "," + TB_CLIENTE + "." + COL_NOME + "," + TB_CLIENTE + "." + COL_CPF + "," + TB_CLIENTE + "." + COL_TELEFONE + " FROM " + TB_CLIENTE + " WHERE cliente.nome = ?";
+        try {
+            conexao = conexaoManager.abrirConexao();
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            stmt.setString(1, name);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                cliente.setId(rs.getInt(COL_ID));
+                cliente.setNome(rs.getString(COL_NOME));
+                cliente.setCpf(rs.getString(COL_CPF));
+                cliente.setTelefone(rs.getString(COL_TELEFONE));
+            }
+            stmt.executeUpdate();
+            conexao.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return cliente;
     }
 
 }
