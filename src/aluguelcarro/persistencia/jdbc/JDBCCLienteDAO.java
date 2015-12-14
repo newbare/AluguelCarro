@@ -19,6 +19,10 @@ public class JDBCCLienteDAO extends AbstractJDBC implements ClienteDAO {
     protected static final String COL_CPF = "cpf";
     protected static final String COL_TELEFONE = "telefone";
 
+    public JDBCCLienteDAO() {
+        super();
+    }  
+    
     @Override
     public void save(Cliente cliente) {
 
