@@ -58,6 +58,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
 
         btnAlugarCarro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/aluguelcarro.imagens/alugar.png"))); // NOI18N
+        btnAlugarCarro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlugarCarroActionPerformed(evt);
+            }
+        });
 
         tabSitCarros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -142,6 +147,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
         frmConfig.setLocationRelativeTo(frmConfig);
         frmConfig.setVisible(true); 
     }//GEN-LAST:event_btnConfigActionPerformed
+
+    private void btnAlugarCarroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlugarCarroActionPerformed
+        FrmAluguelCarro frmAluguel = new FrmAluguelCarro();
+        frmAluguel.setLocationRelativeTo(frmAluguel);
+        frmAluguel.setVisible(true); 
+    }//GEN-LAST:event_btnAlugarCarroActionPerformed
 
     /**
      * @param args the command line arguments
