@@ -3,21 +3,26 @@ package aluguelcarro.persistencia.jdbc;
 import aluguelcarro.persistencia.dao.AluguelDAO;
 import aluguelcarro.persistencia.dao.CarroDAO;
 import aluguelcarro.persistencia.dao.ClienteDAO;
+import aluguelcarro.persistencia.factory.Factory;
 
 /**
  *
  * @author Pedro H M dos Santos <phmsanttos@gmail.com>
  */
-public class JDBCFactory {
-    public static ClienteDAO createClienteDAO(){
+public class JDBCFactory implements Factory{
+
+    @Override
+    public ClienteDAO createClienteDAO() {
         return new JDBCCLienteDAO();
     }
-    
-    public static CarroDAO createCarroDAO(){
+
+    @Override
+    public CarroDAO createCarroDAO() {
         return new JDBCCarroDAO();
     }
-    
-    public static AluguelDAO createAluguelDAO(){
+
+    @Override
+    public AluguelDAO createAluguelDAO() {
         return new JDBCAluguelDAO();
     }
 }

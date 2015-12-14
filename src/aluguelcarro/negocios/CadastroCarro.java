@@ -5,14 +5,16 @@
  */
 package aluguelcarro.negocios;
 
+import aluguelcarro.facade.AluguelCarroFacade;
 import aluguelcarro.models.Carro;
+import java.sql.SQLException;
 
 /**
  *
  * @author eriss_000
  */
 public class CadastroCarro {
-    
+    AluguelCarroFacade facade = new AluguelCarroFacade();
     private String mensagem;
     
     public boolean validarDados(Carro carro){
@@ -37,11 +39,16 @@ public class CadastroCarro {
         return true;
     }
     
-    public boolean inserirCarro(Carro carro){
+    public boolean inserirCarro(Carro carro) throws SQLException{
         boolean camposValidados = this.validarDados(carro);
         if(camposValidados){
-            //TODO chamar o inserir
-            this.mensagem = "Aguardando o metodo inserir";
+            try {
+                facade.criarCarro(carro);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }finally{
+                this.mensagem = "Carro cadastrado com sucesso! (:";
+            }
             return true;
         }
         

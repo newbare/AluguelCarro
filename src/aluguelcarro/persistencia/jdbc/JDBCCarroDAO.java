@@ -33,6 +33,11 @@ public class JDBCCarroDAO extends AbstractJDBC implements CarroDAO{
             stmt.setString(2, carro.getModelo());
             stmt.setInt(3, carro.getAno());
             stmt.setString(4, carro.getPlaca());
+            
+            if(carro.getSituacao() == null){
+                carro.setSituacao("DISPONIVEL");
+            }
+            
             stmt.setString(5, carro.getSituacao());
 
             stmt.executeUpdate();
