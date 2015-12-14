@@ -5,8 +5,15 @@
  */
 package aluguelcarro.apresentacao;
 
+import aluguelcarro.models.Aluguel;
+import aluguelcarro.models.Carro;
+import aluguelcarro.negocios.CadastroAluguel;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,8 +26,55 @@ public class FrmPrincipal extends javax.swing.JFrame {
      */
     public FrmPrincipal() {
         initComponents();
-       // imgNovoCarro = new ImageIcon("\\aluguelcarro.imagens\\novo-carro.png");
-        //btnCadCarro = new JButton(imgNovoCarro);
+        CadastroAluguel cadAluguel = new CadastroAluguel();
+     
+         
+        String[] nomeColunas = {"Id", "Modelo","Fabricante", "Ano","Situacao", "Dt. Inicio","Dt. Fim"};  
+        List<String[]> lista = new ArrayList<>();  
+        ArrayList<Aluguel> alugueis = new ArrayList<Aluguel>();
+        ArrayList<Carro> carros = new ArrayList<Carro>();
+        carros = cadAluguel.getListaCarros();
+        alugueis = cadAluguel.getListaAlugueis();
+        for(Aluguel al: alugueis){
+            lista.add(new String[]{
+                        String.valueOf(al.getCarro().getId()),
+                        al.getCarro().getModelo(),
+                        al.getCarro().getFabricante(),
+                        String.valueOf(al.getCarro().getAno()),
+                        "Alugado",
+                        al.getDtInicio(),
+                        al.getDtFim()
+                                   }
+            );
+        }
+        
+        for(Carro car: carros){
+            boolean aux = true;
+            for(Aluguel al2: alugueis){
+                if(car.getId() == al2.getCarro().getId()){
+                    aux = false;
+                }
+            }
+            if(aux){
+                lista.add(new String[]{
+                            String.valueOf(car.getId()),
+                            car.getModelo(),
+                            car.getFabricante(),
+                            String.valueOf(car.getAno()),
+                            "Disponivel",
+                            " - ",
+                            " - "
+                                       }
+                );
+            }
+        }
+        
+       
+       DefaultTableModel model = new DefaultTableModel(
+        lista.toArray(new String[lista.size()][]), nomeColunas);
+       
+  
+        tabSitCarros.setModel(model);
     }
 
     /**
@@ -76,7 +130,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {

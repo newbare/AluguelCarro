@@ -49,7 +49,7 @@ public class JDBCAluguelDAO extends AbstractJDBC implements AluguelDAO{
                 TB_ALUGUEL + "." + COL_CARRO_ID + "," + 
                 TB_ALUGUEL + "." + COL_DT_INICIO + "," + 
                 TB_ALUGUEL + "." + COL_DT_FIM +
-             " FROM " + TB_CARRO;
+             " FROM " + TB_ALUGUEL;
         try {
             conexao = conexaoManager.abrirConexao();
             PreparedStatement stmt = conexao.prepareStatement(sql);

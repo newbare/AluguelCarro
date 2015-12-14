@@ -23,12 +23,14 @@ public class CadastroAluguel {
     private ArrayList<Cliente> listaClientes;
     private String mensagem;
     AluguelCarroFacade facade = new AluguelCarroFacade();
+    private ArrayList<Aluguel> listaAlugueis = new ArrayList<Aluguel>();
     
     public CadastroAluguel() {
         
         try {
             this.listaCarros = facade.retornaTodosCarros();
             this.listaClientes = facade.retornaTodosClientes();
+            this.listaAlugueis = facade.retornaTodosAluguel();
         } catch (SQLException ex) {
             this.mensagem = "Erro ao carregar dados do carro e cliente";
         }
@@ -95,6 +97,14 @@ public class CadastroAluguel {
 
     public void setMensagem(String mensagem) {
         this.mensagem = mensagem;
+    }
+
+    public ArrayList<Aluguel> getListaAlugueis() {
+        return listaAlugueis;
+    }
+
+    public void setListaAlugueis(ArrayList<Aluguel> listaAlugueis) {
+        this.listaAlugueis = listaAlugueis;
     }
     
 }
