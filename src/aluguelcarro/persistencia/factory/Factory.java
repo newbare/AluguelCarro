@@ -6,7 +6,7 @@ import aluguelcarro.persistencia.dao.ClienteDAO;
 
 /**
  *
- * @author Pedro H M dos Santos
+ * @author Pedro H M dos Santos <phmsanttos@gmail.com>
  */
 public interface Factory {
     ClienteDAO createClienteDAO();
