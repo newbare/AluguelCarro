@@ -44,11 +44,11 @@ public class CadastroCarro {
         if(camposValidados){
             try {
                 facade.criarCarro(carro);
+                this.mensagem = "Carro cadastrado com sucesso!";
             } catch (SQLException e) {
-                e.printStackTrace();
-            }finally{
-                this.mensagem = "Carro cadastrado com sucesso! (:";
+                this.mensagem = "Erro ao inserir o carro!";
             }
+            
             return true;
         }
         

@@ -7,6 +7,9 @@ package aluguelcarro.apresentacao;
 
 import aluguelcarro.models.Cliente;
 import aluguelcarro.negocios.CadastroCliente;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -124,50 +127,54 @@ public class FrmCadCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
-        this.setVisible(false); 
+        this.setVisible(false);
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnCadClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadClienteActionPerformed
-        Cliente cliente = new Cliente();
-        CadastroCliente cadCliente = new CadastroCliente();
-        boolean dadosInseridos;
-        String nome = txtNome.getText();
-        String cpf = txtCpf.getText();
-        String telefone = txtTelefone.getText();
-        
-        if(!nome.equals("")){
-            cliente.setNome(nome);
-        }else{
-            cliente.setNome(""); 
+        try {
+            Cliente cliente = new Cliente();
+            CadastroCliente cadCliente = new CadastroCliente();
+            boolean dadosInseridos;
+            String nome = txtNome.getText();
+            String cpf = txtCpf.getText();
+            String telefone = txtTelefone.getText();
+
+            if (!nome.equals("")) {
+                cliente.setNome(nome);
+            } else {
+                cliente.setNome("");
+            }
+
+            if (!cpf.equals("")) {
+                cliente.setCpf(cpf);
+            } else {
+                cliente.setCpf("");
+            }
+
+            if (!telefone.equals("")) {
+                cliente.setTelefone(telefone);
+            } else {
+                cliente.setTelefone("");
+            }
+
+            dadosInseridos = cadCliente.inserirCliente(cliente);
+            if (dadosInseridos) {
+                this.limparCampos();
+            }
+            JOptionPane.showMessageDialog(null, cadCliente.getMensagem());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao inserir o cliente");
         }
-        
-        if(!cpf.equals("")){
-            cliente.setCpf(cpf);
-        }else{
-            cliente.setCpf(""); 
-        }
-        
-        if(!telefone.equals("")){
-            cliente.setTelefone(telefone);
-        }else{
-            cliente.setTelefone(""); 
-        }
-        
-        dadosInseridos = cadCliente.inserirCliente(cliente);
-        if(dadosInseridos){
-            this.limparCampos();
-        }
-        
-        JOptionPane.showMessageDialog(null, cadCliente.getMensagem()); 
+
+
     }//GEN-LAST:event_btnCadClienteActionPerformed
-    
-    
-    public void limparCampos(){
+
+    public void limparCampos() {
         txtCpf.setText("");
         txtNome.setText("");
-        txtTelefone.setText(""); 
+        txtTelefone.setText("");
     }
-    
+
     /**
      * @param args the command line arguments
      */

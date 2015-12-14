@@ -7,6 +7,9 @@ package aluguelcarro.apresentacao;
 
 import aluguelcarro.models.Carro;
 import aluguelcarro.negocios.CadastroCarro;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -137,57 +140,63 @@ public class FrmCadCarro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
-        this.setVisible(false); 
+        this.setVisible(false);
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnCadCarroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadCarroActionPerformed
-        Carro carro = new Carro();
-        CadastroCarro cadCarro = new CadastroCarro();
-        boolean dadosInseridos;
-        String fabricante = txtFabricante.getText();
-        String modelo = txtModelo.getText();
-        String anoStr = txtAno.getText();
-        String placa = txtPlaca.getText();
-        
-        if(!fabricante.equals("")){
-            carro.setFabricante(fabricante);
-        }else{
-            carro.setFabricante(""); 
+        try {
+            Carro carro = new Carro();
+            CadastroCarro cadCarro = new CadastroCarro();
+            boolean dadosInseridos;
+            String fabricante = txtFabricante.getText();
+            String modelo = txtModelo.getText();
+            String anoStr = txtAno.getText();
+            String placa = txtPlaca.getText();
+
+            if (!fabricante.equals("")) {
+                carro.setFabricante(fabricante);
+            } else {
+                carro.setFabricante("");
+            }
+
+            if (!modelo.equals("")) {
+                carro.setModelo(modelo);
+            } else {
+                carro.setModelo("");
+            }
+
+            if (!anoStr.equals("")) {
+                int ano = Integer.parseInt(anoStr);
+                carro.setAno(ano);
+            } else {
+                carro.setAno(0);
+            }
+
+            if (!placa.equals("")) {
+                carro.setPlaca(placa);
+            } else {
+                carro.setPlaca("");
+            }
+
+            dadosInseridos = cadCarro.inserirCarro(carro);
+            if (dadosInseridos) {
+                this.limparCampos();
+            }
+            JOptionPane.showMessageDialog(null, cadCarro.getMensagem());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao inserir o carro");
         }
+
         
-        if(!modelo.equals("")){
-            carro.setModelo(modelo);
-        }else{
-            carro.setModelo(""); 
-        }
-        
-        if(!anoStr.equals("")){
-            int ano = Integer.parseInt(anoStr);
-            carro.setAno(ano);
-        }else{
-            carro.setAno(0);
-        }
-        
-        if(!placa.equals("")){
-            carro.setPlaca(placa);
-        }else{
-            carro.setPlaca(""); 
-        }
-        
-        dadosInseridos = cadCarro.inserirCarro(carro);
-        if(dadosInseridos){
-            this.limparCampos();
-        }
-        
-        JOptionPane.showMessageDialog(null, cadCarro.getMensagem()); 
     }//GEN-LAST:event_btnCadCarroActionPerformed
-    
-    public void limparCampos(){
+
+    public void limparCampos() {
         txtFabricante.setText("");
         txtModelo.setText("");
         txtAno.setText("");
         txtPlaca.setText("");
     }
+
     /**
      * @param args the command line arguments
      */

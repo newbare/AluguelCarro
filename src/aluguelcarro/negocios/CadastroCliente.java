@@ -42,10 +42,9 @@ public class CadastroCliente {
             
             try {
                 facade.criarCliente(cliente);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }finally{
                 this.mensagem = "Usuário cadastrado com sucesso! (:";
+            } catch (SQLException e) {
+                this.mensagem = "Erro ao inserir o cliente";
             }
             
             return true;

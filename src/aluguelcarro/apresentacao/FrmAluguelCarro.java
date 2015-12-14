@@ -5,7 +5,22 @@
  */
 package aluguelcarro.apresentacao;
 
+import aluguelcarro.models.Aluguel;
+import aluguelcarro.models.Carro;
+import aluguelcarro.models.Cliente;
+import aluguelcarro.models.Item;
+import aluguelcarro.negocios.CadastroAluguel;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.ListIterator;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
 
 /**
@@ -14,13 +29,32 @@ import javax.swing.text.MaskFormatter;
  */
 public class FrmAluguelCarro extends javax.swing.JFrame {
 
+    CadastroAluguel cadAluguel = new CadastroAluguel();
+    int idCarro;
+    int idCliente;
+
     /**
      * Creates new form FrmAluguelCarro
      */
     public FrmAluguelCarro() {
         initComponents();
+        ListIterator itCliente;
+        itCliente = this.cadAluguel.getListaClientes().listIterator();
+        while (itCliente.hasNext()) {
+            Cliente obj = (Cliente) itCliente.next();
+            comboCliente.addItem(obj.getId() + " - " + obj.getNome());
+        }
+
+        ListIterator itCarro;
+        itCarro = this.cadAluguel.getListaCarros().listIterator();
+        while (itCarro.hasNext()) {
+            Carro obj = (Carro) itCarro.next();
+            if (obj.getSituacao().equals("DISPONIVEL")) {
+                comboCarro.addItem(obj.getId() + " - " + obj.getModelo());
+            }
+        }
     }
-  
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,6 +74,7 @@ public class FrmAluguelCarro extends javax.swing.JFrame {
         btnAlugar = new javax.swing.JButton();
         txtDtInicio = new javax.swing.JTextField();
         txtDtFim = new javax.swing.JTextField();
+        btnFechar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,11 +88,34 @@ public class FrmAluguelCarro extends javax.swing.JFrame {
 
         jLabel5.setText("Fim:");
 
-        comboCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione um cliente" }));
+        comboCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboClienteActionPerformed(evt);
+            }
+        });
 
-        comboCarro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboCarro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione um carro" }));
+        comboCarro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboCarroActionPerformed(evt);
+            }
+        });
 
         btnAlugar.setText("Alugar");
+        btnAlugar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlugarActionPerformed(evt);
+            }
+        });
+
+        btnFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/aluguelcarro.imagens/fechar.png"))); // NOI18N
+        btnFechar.setText("Fechar");
+        btnFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFecharActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -87,7 +145,10 @@ public class FrmAluguelCarro extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtDtInicio)
                                     .addComponent(txtDtFim)))
-                            .addComponent(btnAlugar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btnAlugar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(62, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -112,12 +173,85 @@ public class FrmAluguelCarro extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(txtDtFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnAlugar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAlugar)
+                    .addComponent(btnFechar))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void comboClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboClienteActionPerformed
+        Object itemSelecionado = comboCliente.getSelectedItem();
+        String str = itemSelecionado.toString();
+        String[] dados = str.split(" ");
+        idCliente = Integer.parseInt(dados[0]);
+
+    }//GEN-LAST:event_comboClienteActionPerformed
+
+    private void comboCarroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboCarroActionPerformed
+        Object itemSelecionado = comboCarro.getSelectedItem();
+        String str = itemSelecionado.toString();
+        String[] dados = str.split(" ");
+        idCarro = Integer.parseInt(dados[0]);
+    }//GEN-LAST:event_comboCarroActionPerformed
+
+    private void btnAlugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlugarActionPerformed
+        try {
+            Carro carro = new Carro();
+            Cliente cliente = new Cliente();
+            Aluguel aluguel = new Aluguel();
+            String dtInicio = txtDtInicio.getText();
+            String dtFim = txtDtFim.getText();
+            boolean dadosInseridos;
+
+            if (idCarro > 0) {
+                carro.setId(idCarro);
+            } else {
+                carro.setId(0);
+            }
+
+            if (idCliente > 0) {
+                cliente.setId(idCliente);
+            } else {
+                cliente.setId(0);
+            }
+
+            if (!dtInicio.equals("")) {
+                aluguel.setDtInicio(dtInicio);
+            } else {
+                aluguel.setDtInicio("");
+            }
+
+            if (!dtFim.equals("")) {
+                aluguel.setDtFim(dtFim);
+            } else {
+                aluguel.setDtInicio("");
+            }
+
+            aluguel.setCarro(carro);
+            aluguel.setCliente(cliente);
+
+            dadosInseridos = cadAluguel.inserirAluguel(aluguel);
+
+            if (dadosInseridos) {
+                this.limparCampos();
+            }
+            JOptionPane.showMessageDialog(null, cadAluguel.getMensagem());
+        } catch (SQLException ex) {
+           JOptionPane.showMessageDialog(null, "Erro ao inserir aluguel");
+        }
+    }//GEN-LAST:event_btnAlugarActionPerformed
+
+    private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
+        this.setVisible(false); 
+    }//GEN-LAST:event_btnFecharActionPerformed
+
+    public void limparCampos() {
+        txtDtFim.setText("");
+        txtDtInicio.setText("");
+    }
 
     /**
      * @param args the command line arguments
@@ -156,6 +290,7 @@ public class FrmAluguelCarro extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlugar;
+    private javax.swing.JButton btnFechar;
     private javax.swing.JComboBox<String> comboCarro;
     private javax.swing.JComboBox<String> comboCliente;
     private javax.swing.JLabel jLabel1;
